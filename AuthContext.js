@@ -3,8 +3,8 @@ import { AsyncStorage } from "react-native";
 
 export const AuthContext = createContext();
 
-export const AuthProvider = ({ children }) => {
-  const [isLoggedIn, setIsLoggedIn] = useState(null);
+export const AuthProvider = ({ isLoggedIn: isLoggedInProp, children }) => {
+  const [isLoggedIn, setIsLoggedIn] = useState(isLoggedInProp);
 
   const logUserIn = async () => {
     try {
@@ -32,17 +32,16 @@ export const AuthProvider = ({ children }) => {
 };
 
 export const useIsLoggedIn = () => {
-  const isLoggedIn = useContext(AuthContext);
-  console.log(isLoggedIn);
+  const { isLoggedIn } = useContext(AuthContext);
   return isLoggedIn;
 };
 
 export const useLogIn = () => {
-  const { isLoggedIn } = useContext(AuthContext);
-  return;
+  const { logUserIn } = useContext(AuthContext);
+  return logUserIn;
 };
 
 export const useLogOut = () => {
-  const { isLoggedOut } = useContext(AuthContext);
-  return;
+  const { logUserOut } = useContext(AuthContext);
+  return logUserOut;
 };
