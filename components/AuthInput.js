@@ -9,9 +9,9 @@ const Container = styled.View`
 
 const TextInput = styled.TextInput`
   background-color: ${props => props.theme.greyColor};
-  width: ${constants.width / 2};
+  width: ${constants.width / 1.7};
   padding: 10px;
-  border: 1px solid ${props => props.theme.darkGreyColor};
+  border: 0.5px solid ${props => props.theme.darkGreyColor};
   border-radius: 4px;
 `;
 
