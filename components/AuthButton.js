@@ -4,13 +4,14 @@ import PropTypes from "prop-types";
 import constants from "../constants";
 import { ActivityIndicator } from "react-native";
 
-const Touchable = styled.TouchableOpacity``;
+const Touchable = styled.TouchableOpacity`
+  margin-bottom: 15px;
+`;
 
 const Container = styled.View`
   background-color: ${props =>
     props.bgColor ? props.bgColor : props.theme.blueColor};
   padding: 10px;
-  margin: 0 50px;
   border-radius: 4px;
   width: ${constants.width / 1.7};
 `;
@@ -21,7 +22,14 @@ const Text = styled.Text`
   font-weight: 600;
 `;
 
-const AuthButton = ({ text, onPress, loading = false, bgColor = null }) => (
+const AuthButton = ({
+  text,
+  onPress,
+  loading = false,
+  bgColor = null,
+  facebook = false,
+  google = false
+}) => (
   <Touchable disabled={loading} onPress={onPress}>
     <Container bgColor={bgColor}>
       {loading ? <ActivityIndicator color={"white"} /> : <Text>{text}</Text>}
@@ -32,7 +40,8 @@ const AuthButton = ({ text, onPress, loading = false, bgColor = null }) => (
 AuthButton.propTypes = {
   loading: PropTypes.bool,
   text: PropTypes.string.isRequired,
-  onPress: PropTypes.func.isRequired
+  onPress: PropTypes.func.isRequired,
+  bgColor: PropTypes.string
 };
 
 export default AuthButton;
