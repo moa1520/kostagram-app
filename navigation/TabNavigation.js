@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Image, Platform } from "react-native";
+import { View, Platform } from "react-native";
 import { createBottomTabNavigator } from "react-navigation-tabs";
 import { createStackNavigator } from "react-navigation-stack";
 import Home from "../screens/Tabs/Home";
