@@ -1,8 +1,105 @@
 import React from "react";
-import styled from "styled-components";
+import { Image, View, TouchableOpacity, Platform } from "react-native";
 import PropTypes from "prop-types";
+import styled from "styled-components";
+import styles from "../styles";
+import { Ionicons } from "@expo/vector-icons";
+import constants from "../constants";
 
-const UserProfile = () => null;
+const ProfileHeader = styled.View`
+  padding: 20px;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+`;
+const HeaderColumn = styled.View``;
+const ProfileStats = styled.View`
+  flex-direction: row;
+  margin-right: 60px;
+`;
+const Stat = styled.View`
+  align-items: center;
+  margin-left: 50px;
+`;
+const Bold = styled.Text`
+  font-weight: 600;
+`;
+const StatName = styled.Text`
+  margin-top: 5px;
+  font-size: 12px;
+  color: ${styles.darkGreyColor};
+`;
+const ProfileMeta = styled.View`
+  margin-top: 10px;
+  padding-horizontal: 20px;
+`;
+const Bio = styled.Text``;
+const ButtonContainer = styled.View`
+  flex-direction: row;
+  margin-top: 30px;
+`;
+const Button = styled.View`
+  width: ${constants.width / 2};
+  align-items: center;
+`;
+
+const UserProfile = ({
+  avatar,
+  postsCount,
+  followersCount,
+  followingCount,
+  bio,
+  fullName
+}) => (
+  <View>
+    <ProfileHeader>
+      <HeaderColumn>
+        <Image
+          style={{ height: 80, width: 80, borderRadius: 40 }}
+          source={{ uri: avatar }}
+        />
+      </HeaderColumn>
+      <HeaderColumn>
+        <ProfileStats>
+          <Stat>
+            <Bold>{postsCount}</Bold>
+            <StatName>게시물</StatName>
+          </Stat>
+          <Stat>
+            <Bold>{followersCount}</Bold>
+            <StatName>팔로워</StatName>
+          </Stat>
+          <Stat>
+            <Bold>{followingCount}</Bold>
+            <StatName>팔로잉</StatName>
+          </Stat>
+        </ProfileStats>
+      </HeaderColumn>
+    </ProfileHeader>
+    <ProfileMeta>
+      <Bold>{fullName}</Bold>
+      <Bio>{bio}</Bio>
+    </ProfileMeta>
+    <ButtonContainer>
+      <TouchableOpacity>
+        <Button>
+          <Ionicons
+            size={32}
+            name={Platform.OS === "ios" ? "ios-grid" : "md-grid"}
+          />
+        </Button>
+      </TouchableOpacity>
+      <TouchableOpacity>
+        <Button>
+          <Ionicons
+            size={32}
+            name={Platform.OS === "ios" ? "ios-list" : "md-list"}
+          />
+        </Button>
+      </TouchableOpacity>
+    </ButtonContainer>
+  </View>
+);
 
 UserProfile.propTypes = {
   id: PropTypes.string.isRequired,
