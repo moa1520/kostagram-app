@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { Image, View, TouchableOpacity, Platform } from "react-native";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import styles from "../styles";
 import { Ionicons } from "@expo/vector-icons";
 import constants from "../constants";
+import SquarePhoto from "./SquarePhoto";
+import Post from "./Post";
 
 const ProfileHeader = styled.View`
   padding: 20px;
@@ -35,12 +37,17 @@ const ProfileMeta = styled.View`
 `;
 const Bio = styled.Text``;
 const ButtonContainer = styled.View`
+  padding-vertical: 5px;
+  border: 1px solid ${styles.lightGreyColor};
   flex-direction: row;
   margin-top: 30px;
 `;
 const Button = styled.View`
   width: ${constants.width / 2};
   align-items: center;
+`;
+const Posts = styled.View`
+  flex-direction: ${props => (props.isGrid ? "row" : "column")};
 `;
 
 const UserProfile = ({
@@ -49,57 +56,74 @@ const UserProfile = ({
   followersCount,
   followingCount,
   bio,
-  fullName
-}) => (
-  <View>
-    <ProfileHeader>
-      <HeaderColumn>
-        <Image
-          style={{ height: 80, width: 80, borderRadius: 40 }}
-          source={{ uri: avatar }}
-        />
-      </HeaderColumn>
-      <HeaderColumn>
-        <ProfileStats>
-          <Stat>
-            <Bold>{postsCount}</Bold>
-            <StatName>게시물</StatName>
-          </Stat>
-          <Stat>
-            <Bold>{followersCount}</Bold>
-            <StatName>팔로워</StatName>
-          </Stat>
-          <Stat>
-            <Bold>{followingCount}</Bold>
-            <StatName>팔로잉</StatName>
-          </Stat>
-        </ProfileStats>
-      </HeaderColumn>
-    </ProfileHeader>
-    <ProfileMeta>
-      <Bold>{fullName}</Bold>
-      <Bio>{bio}</Bio>
-    </ProfileMeta>
-    <ButtonContainer>
-      <TouchableOpacity>
-        <Button>
-          <Ionicons
-            size={32}
-            name={Platform.OS === "ios" ? "ios-grid" : "md-grid"}
+  fullName,
+  posts
+}) => {
+  const [isGrid, setIsGrid] = useState(true);
+  const toggleGrid = () => setIsGrid(i => !i);
+  return (
+    <View>
+      <ProfileHeader>
+        <HeaderColumn>
+          <Image
+            style={{ height: 80, width: 80, borderRadius: 40 }}
+            source={{ uri: avatar }}
           />
-        </Button>
-      </TouchableOpacity>
-      <TouchableOpacity>
-        <Button>
-          <Ionicons
-            size={32}
-            name={Platform.OS === "ios" ? "ios-list" : "md-list"}
-          />
-        </Button>
-      </TouchableOpacity>
-    </ButtonContainer>
-  </View>
-);
+        </HeaderColumn>
+        <HeaderColumn>
+          <ProfileStats>
+            <Stat>
+              <Bold>{postsCount}</Bold>
+              <StatName>게시물</StatName>
+            </Stat>
+            <Stat>
+              <Bold>{followersCount}</Bold>
+              <StatName>팔로워</StatName>
+            </Stat>
+            <Stat>
+              <Bold>{followingCount}</Bold>
+              <StatName>팔로잉</StatName>
+            </Stat>
+          </ProfileStats>
+        </HeaderColumn>
+      </ProfileHeader>
+      <ProfileMeta>
+        <Bold>{fullName}</Bold>
+        <Bio>{bio}</Bio>
+      </ProfileMeta>
+      <ButtonContainer>
+        <TouchableOpacity onPress={toggleGrid}>
+          <Button>
+            <Ionicons
+              color={isGrid ? styles.blackColor : styles.lightGreyColor}
+              size={32}
+              name={Platform.OS === "ios" ? "ios-grid" : "md-grid"}
+            />
+          </Button>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={toggleGrid}>
+          <Button>
+            <Ionicons
+              color={!isGrid ? styles.blackColor : styles.lightGreyColor}
+              size={32}
+              name={Platform.OS === "ios" ? "ios-list" : "md-list"}
+            />
+          </Button>
+        </TouchableOpacity>
+      </ButtonContainer>
+      <Posts isGrid={isGrid}>
+        {posts &&
+          posts.map(p =>
+            isGrid ? (
+              <SquarePhoto key={p.id} {...p} />
+            ) : (
+              <Post key={p.id} {...p} />
+            )
+          )}
+      </Posts>
+    </View>
+  );
+};
 
 UserProfile.propTypes = {
   id: PropTypes.string.isRequired,
