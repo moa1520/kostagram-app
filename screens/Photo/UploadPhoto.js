@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios";
 import styled from "styled-components";
 import { Alert, ActivityIndicator } from "react-native";
 import styles from "../../styles";
@@ -49,17 +50,38 @@ const Text = styled.Text`
 export default ({ navigation }) => {
   const [loading, setLoading] = useState(false);
   const [fileUrl, setFileUrl] = useState("");
+  const photo = navigation.getParam("photo");
   const captionInput = useInput("");
   const locationInput = useInput("");
   const handleSubmit = async () => {
     if (captionInput.value === "" || locationInput.value === "") {
       Alert.alert("모두 입력을 해주세요.");
     }
+    const formData = new FormData();
+    const name = photo.filename;
+    const [, type] = name.split(".");
+    formData.append("file", {
+      name,
+      type: type.toLowerCase(),
+      uri: photo.uri
+    });
+    try {
+      const {
+        data: { path }
+      } = await axios.post("http://localhost:4000/api/upload", formData, {
+        headers: {
+          "content-type": "multipart/form-data"
+        }
+      });
+      setFileUrl(path);
+    } catch (e) {
+      Alert.alert("업로드를 할 수 없습니다", "다음에 다시 시도해주세요");
+    }
   };
   return (
     <View>
       <Container>
-        <Image source={{ uri: navigation.getParam("photo").uri }} />
+        <Image source={{ uri: photo.uri }} />
       </Container>
       <Container>
         <Form>
