@@ -7,7 +7,7 @@ import Loader from "../../components/Loader";
 import Post from "../../components/Post";
 import { POST_FRAGMENT } from "../../fragments";
 
-const FEED_QUREY = gql`
+export const FEED_QUERY = gql`
   {
     seeFeed {
       ...PostParts
@@ -24,7 +24,7 @@ const View = styled.View`
 
 export default () => {
   const [refreshing, setRefreshing] = useState(false);
-  const { loading, data, refetch } = useQuery(FEED_QUREY);
+  const { loading, data, refetch } = useQuery(FEED_QUERY);
   const refresh = async () => {
     try {
       setRefreshing(true);
@@ -35,7 +35,6 @@ export default () => {
       setRefreshing(false);
     }
   };
-  console.log(loading, data);
   return (
     <ScrollView
       refreshControl={
