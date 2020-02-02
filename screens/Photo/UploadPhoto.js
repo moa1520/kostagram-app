@@ -67,13 +67,14 @@ export default ({ navigation }) => {
     });
     try {
       const {
-        data: { path }
+        data: { location }
       } = await axios.post("http://localhost:4000/api/upload", formData, {
         headers: {
           "content-type": "multipart/form-data"
         }
       });
-      setFileUrl(path);
+      console.log(location);
+      setFileUrl(location);
     } catch (e) {
       Alert.alert("업로드를 할 수 없습니다", "다음에 다시 시도해주세요");
     }
