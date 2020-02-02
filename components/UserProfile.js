@@ -21,14 +21,14 @@ const ProfileStats = styled.View`
 `;
 const Stat = styled.View`
   align-items: center;
-  margin-left: 50px;
+  margin-left: 30px;
 `;
 const Bold = styled.Text`
   font-weight: 600;
 `;
 const StatName = styled.Text`
   margin-top: 5px;
-  font-size: 14px;
+  font-size: 12px;
   color: ${styles.darkGreyColor};
 `;
 const ProfileMeta = styled.View`
@@ -50,6 +50,11 @@ const Posts = styled.View`
   flex-direction: ${props => (props.isGrid ? "row" : "column")};
   flex-wrap: wrap;
 `;
+const Logout = styled.TouchableOpacity`
+  margin-left: 20px;
+  align-items: center;
+  justify-content: center;
+`;
 
 const UserProfile = ({
   avatar,
@@ -61,7 +66,6 @@ const UserProfile = ({
   posts
 }) => {
   const [isGrid, setIsGrid] = useState(true);
-  const toggleGrid = () => setIsGrid(i => !i);
   return (
     <View>
       <ProfileHeader>
@@ -85,6 +89,9 @@ const UserProfile = ({
               <Bold>{followingCount}</Bold>
               <StatName>팔로잉</StatName>
             </Stat>
+            <Logout>
+              <Bold>로그아웃</Bold>
+            </Logout>
           </ProfileStats>
         </HeaderColumn>
       </ProfileHeader>
@@ -93,7 +100,7 @@ const UserProfile = ({
         <Bio>{bio}</Bio>
       </ProfileMeta>
       <ButtonContainer>
-        <TouchableOpacity onPress={toggleGrid}>
+        <TouchableOpacity onPress={() => setIsGrid(true)}>
           <Button>
             <Ionicons
               color={isGrid ? styles.blackColor : styles.lightGreyColor}
@@ -102,7 +109,7 @@ const UserProfile = ({
             />
           </Button>
         </TouchableOpacity>
-        <TouchableOpacity onPress={toggleGrid}>
+        <TouchableOpacity onPress={() => setIsGrid(false)}>
           <Button>
             <Ionicons
               color={!isGrid ? styles.blackColor : styles.lightGreyColor}

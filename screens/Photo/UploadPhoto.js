@@ -84,11 +84,15 @@ export default ({ navigation }) => {
       setLoading(true);
       const {
         data: { location }
-      } = await axios.post("http://localhost:4000/api/upload", formData, {
-        headers: {
-          "content-type": "multipart/form-data"
+      } = await axios.post(
+        "https://kostagram-backend.herokuapp.com/api/upload",
+        formData,
+        {
+          headers: {
+            "content-type": "multipart/form-data"
+          }
         }
-      });
+      );
       const {
         data: { upload }
       } = await uploadMutation({
@@ -103,6 +107,7 @@ export default ({ navigation }) => {
       }
     } catch (e) {
       Alert.alert("업로드를 할 수 없습니다", "다음에 다시 시도해주세요");
+      console.log(e);
     } finally {
       setLoading(false);
     }

@@ -11,6 +11,7 @@ const View = styled.View`
 
 const Image = styled.Image`
   width: ${constants.width / 2};
+  margin-top: -120px;
   margin-bottom: -80px;
 `;
 

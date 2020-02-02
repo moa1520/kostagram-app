@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ScrollView, RefreshControl } from "react-native";
+import { ScrollView, RefreshControl, Text } from "react-native";
 import styled from "styled-components";
 import { gql } from "apollo-boost";
 import { useQuery } from "react-apollo-hooks";
@@ -19,6 +19,7 @@ export const FEED_QUERY = gql`
 const View = styled.View`
   justify-content: center;
   align-items: center;
+  margin-top: 50%;
   flex: 1;
 `;
 
@@ -47,6 +48,11 @@ export default () => {
         data &&
         data.seeFeed &&
         data.seeFeed.map(post => <Post key={post.id} {...post} />)
+      )}
+      {!loading && data && data.seeFeed.length === 0 && (
+        <View>
+          <Text>팔로우한 유저가 없습니다😂</Text>
+        </View>
       )}
     </ScrollView>
   );
