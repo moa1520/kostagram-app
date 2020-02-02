@@ -28,7 +28,7 @@ const Bold = styled.Text`
 `;
 const StatName = styled.Text`
   margin-top: 5px;
-  font-size: 12px;
+  font-size: 14px;
   color: ${styles.darkGreyColor};
 `;
 const ProfileMeta = styled.View`
