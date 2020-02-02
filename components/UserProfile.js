@@ -48,6 +48,7 @@ const Button = styled.View`
 `;
 const Posts = styled.View`
   flex-direction: ${props => (props.isGrid ? "row" : "column")};
+  flex-wrap: wrap;
 `;
 
 const UserProfile = ({
