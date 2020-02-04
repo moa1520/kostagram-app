@@ -165,8 +165,8 @@ const Post = ({
         </Caption>
         {commentAppear
           ? comments.map(comment => (
-              <Comments>
-                <Bold key={comment.id}>{comment.user.username}</Bold>
+              <Comments key={comment.id}>
+                <Bold>{comment.user.username}</Bold>
                 <Comment>{comment.text}</Comment>
               </Comments>
             ))

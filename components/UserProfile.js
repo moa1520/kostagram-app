@@ -7,6 +7,7 @@ import { Ionicons } from "@expo/vector-icons";
 import constants from "../constants";
 import SquarePhoto from "./SquarePhoto";
 import Post from "./Post";
+import { withNavigation } from "react-navigation";
 
 const ProfileHeader = styled.View`
   padding: 20px;
@@ -63,17 +64,23 @@ const UserProfile = ({
   followingCount,
   bio,
   fullName,
-  posts
+  posts,
+  username,
+  navigation
 }) => {
   const [isGrid, setIsGrid] = useState(true);
   return (
     <View>
       <ProfileHeader>
         <HeaderColumn>
-          <Image
-            style={{ height: 80, width: 80, borderRadius: 40 }}
-            source={{ uri: avatar }}
-          />
+          <TouchableOpacity
+            onPress={() => navigation.navigate("EditProfile", { username })}
+          >
+            <Image
+              style={{ height: 80, width: 80, borderRadius: 40 }}
+              source={{ uri: avatar }}
+            />
+          </TouchableOpacity>
         </HeaderColumn>
         <HeaderColumn>
           <ProfileStats>
@@ -177,4 +184,4 @@ UserProfile.propTypes = {
   )
 };
 
-export default UserProfile;
+export default withNavigation(UserProfile);

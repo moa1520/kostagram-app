@@ -6,7 +6,7 @@ import Loader from "../components/Loader";
 import UserProfile from "../components/UserProfile";
 import { ScrollView, RefreshControl } from "react-native";
 
-const GET_USER = gql`
+export const GET_USER = gql`
   query seeUser($username: String!) {
     seeUser(username: $username) {
       ...UserParts

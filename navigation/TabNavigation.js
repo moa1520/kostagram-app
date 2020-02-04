@@ -12,6 +12,7 @@ import NavIcon from "../components/NavIcon";
 import { stackStyles } from "./config";
 import styles from "../styles";
 import UserDetail from "../screens/UserDetail";
+import EditProfile from "../screens/EditProfile";
 
 const stackFactory = (initialRoute, customConfig) =>
   createStackNavigator(
@@ -33,6 +34,12 @@ const stackFactory = (initialRoute, customConfig) =>
         navigationOptions: ({ navigation }) => ({
           title: navigation.getParam("username")
         })
+      },
+      EditProfile: {
+        screen: EditProfile,
+        navigationOptions: {
+          title: "프로필 편집"
+        }
       }
     },
     {
