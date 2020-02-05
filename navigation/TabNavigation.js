@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Profiler } from "react";
 import { View, Platform } from "react-native";
 import { createBottomTabNavigator } from "react-navigation-tabs";
 import { createStackNavigator } from "react-navigation-stack";
