@@ -12,9 +12,9 @@ import NavIcon from "../components/NavIcon";
 import { stackStyles } from "./config";
 import styles from "../styles";
 import UserDetail from "../screens/UserDetail";
-import EditProfile from "../screens/EditProfile";
-import EditProfilePhoto from "../screens/EditProfilePhoto";
 import Comment from "../screens/Comment";
+import EditProfile from "../screens/EditProfile/EditProfile";
+import EditProfilePhoto from "../screens/EditProfile/EditProfilePhoto";
 
 const stackFactory = (initialRoute, customConfig) =>
   createStackNavigator(

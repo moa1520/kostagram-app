@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import axios from "axios";
 import * as Permissions from "expo-permissions";
 import * as MediaLibrary from "expo-media-library";
-import Loader from "../components/Loader";
+import Loader from "../../components/Loader";
 import { Image, ScrollView, TouchableOpacity, Alert } from "react-native";
-import constants from "../constants";
-import styles from "../styles";
+import constants from "../../constants";
+import styles from "../../styles";
 import { useMutation } from "react-apollo-hooks";
-import { EDIT_USER } from "../components/EditUser";
-import { GET_USER } from "./UserDetail";
+import { EDIT_USER } from "../../components/EditUser";
 
 const View = styled.View`
   flex: 1;
@@ -65,13 +65,32 @@ export default ({ navigation }) => {
     }
   };
   const handleSelected = async () => {
+    const formData = new FormData();
+    const name = selected.filename;
+    const [, type] = name.split(".");
+    formData.append("file", {
+      name,
+      type: type.toLowerCase(),
+      uri: selected.uri
+    });
     try {
       setLoading(true);
+      const {
+        data: { location }
+      } = await axios.post(
+        "https://kostagram-backend.herokuapp.com/api/upload",
+        formData,
+        {
+          headers: {
+            "content-type": "multipart/form-data"
+          }
+        }
+      );
       const {
         data: { editUser }
       } = await editUserMutation({
         variables: {
-          avatar: selected.uri
+          avatar: location
         }
       });
       if (editUser.id) {
