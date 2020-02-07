@@ -6,7 +6,7 @@ import Loader from "../components/Loader";
 import Post from "../components/Post";
 import { ScrollView } from "react-native-gesture-handler";
 
-const FULL_POST = gql`
+export const FULL_POST = gql`
   query seeFullPost($id: String!) {
     seeFullPost(id: $id) {
       ...PostParts

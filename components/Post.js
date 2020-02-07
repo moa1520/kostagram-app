@@ -50,13 +50,6 @@ const CommentCount = styled.Text`
   font-size: 12px;
 `;
 
-const Comments = styled.View`
-  flex-direction: row;
-`;
-const Comment = styled.Text`
-  margin-left: 5px;
-`;
-
 const Post = ({
   id,
   user,
@@ -70,15 +63,11 @@ const Post = ({
 }) => {
   const [isLiked, setIsLiked] = useState(isLikedProp);
   const [likeCount, setLikeCount] = useState(likeCountProp);
-  const [commentAppear, setCommentAppear] = useState(false);
   const [toggleLikeMutation] = useMutation(TOGGLE_LIKE, {
     variables: {
       postId: id
     }
   });
-  const toggleComment = () => {
-    setCommentAppear(p => !p);
-  };
   const handleLike = async () => {
     try {
       setIsLiked(p => !p);
@@ -91,6 +80,9 @@ const Post = ({
     } catch (e) {
       console.log(e);
     }
+  };
+  const commentView = () => {
+    navigation.navigate("Comment", { id });
   };
   return (
     <Container>
@@ -163,23 +155,9 @@ const Post = ({
         <Caption>
           <Bold>{user.username}</Bold> {caption}
         </Caption>
-        {commentAppear
-          ? comments.map(comment => (
-              <Comments key={comment.id}>
-                <Bold>{comment.user.username}</Bold>
-                <Comment>{comment.text}</Comment>
-              </Comments>
-            ))
-          : null}
-        {commentAppear ? (
-          <Touchable onPress={toggleComment}>
-            <CommentCount>댓글 닫기</CommentCount>
-          </Touchable>
-        ) : (
-          <Touchable onPress={toggleComment}>
-            <CommentCount>댓글 {comments.length}개 모두 보기</CommentCount>
-          </Touchable>
-        )}
+        <Touchable onPress={commentView}>
+          <CommentCount>댓글 {comments.length}개 모두 보기</CommentCount>
+        </Touchable>
       </InfoContainer>
     </Container>
   );

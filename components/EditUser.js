@@ -149,7 +149,7 @@ const EditUser = ({
         <TouchableOpacity
           onPress={() => navigation.navigate("EditProfilePhoto")}
         >
-          <PhotoText>프웃필 사진 바꾸기</PhotoText>
+          <PhotoText>프로필 사진 바꾸기</PhotoText>
         </TouchableOpacity>
       </ProfilePhoto>
       <Information>

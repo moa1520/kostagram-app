@@ -14,6 +14,7 @@ import styles from "../styles";
 import UserDetail from "../screens/UserDetail";
 import EditProfile from "../screens/EditProfile";
 import EditProfilePhoto from "../screens/EditProfilePhoto";
+import Comment from "../screens/Comment";
 
 const stackFactory = (initialRoute, customConfig) =>
   createStackNavigator(
@@ -46,6 +47,12 @@ const stackFactory = (initialRoute, customConfig) =>
         screen: EditProfilePhoto,
         navigationOptions: {
           title: "프로필 사진 편집"
+        }
+      },
+      Comment: {
+        screen: Comment,
+        navigationOptions: {
+          title: "댓글"
         }
       }
     },
