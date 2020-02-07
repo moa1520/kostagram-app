@@ -2,13 +2,13 @@
 
 Screen:
 
-- [ ] Home
-- [ ] Search
-- [ ] Upload
+- [v] Home
+- [v] Search
+- [v] Upload
 - [ ] Notifications (Challenge)
-- [ ] Profile
+- [v] Profile
 - [ ] Edit Profile (Challenge)
-- [ ] Photo Detail
+- [v] Photo Detail
 - [ ] Photo Comments (Challenge)
 - [ ] Photo Likes (Challenge)
 
