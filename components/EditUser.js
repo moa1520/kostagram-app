@@ -14,7 +14,7 @@ import { useMutation } from "react-apollo-hooks";
 import { withNavigation } from "react-navigation";
 import { GET_USER } from "../screens/UserDetail";
 
-const EDIT_USER = gql`
+export const EDIT_USER = gql`
   mutation editUser(
     $username: String
     $email: String
@@ -129,7 +129,7 @@ const EditUser = ({
         }
       });
       if (editUser.id) {
-        navigation.navigate("UserDetail");
+        navigation.navigate("UserDetail", { username });
         Alert.alert("수정이 완료되었습니다");
       }
     } catch (e) {
@@ -146,8 +146,10 @@ const EditUser = ({
           style={{ width: 100, height: 100, borderRadius: 50 }}
           source={{ uri: avatar }}
         />
-        <TouchableOpacity>
-          <PhotoText>프로필 사진 바꾸기</PhotoText>
+        <TouchableOpacity
+          onPress={() => navigation.navigate("EditProfilePhoto")}
+        >
+          <PhotoText>프웃필 사진 바꾸기</PhotoText>
         </TouchableOpacity>
       </ProfilePhoto>
       <Information>

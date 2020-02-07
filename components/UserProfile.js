@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Image, View, TouchableOpacity, Platform } from "react-native";
+import { Image, View, TouchableOpacity, Platform, Alert } from "react-native";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import styles from "../styles";
@@ -96,7 +96,11 @@ const UserProfile = ({
               <Bold>{followingCount}</Bold>
               <StatName>팔로잉</StatName>
             </Stat>
-            <Logout>
+            <Logout
+              onPress={() => {
+                Alert.alert("아직 개발중!", "아직 구현이 안됬습니다");
+              }}
+            >
               <Bold>로그아웃</Bold>
             </Logout>
           </ProfileStats>

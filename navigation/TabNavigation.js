@@ -13,6 +13,7 @@ import { stackStyles } from "./config";
 import styles from "../styles";
 import UserDetail from "../screens/UserDetail";
 import EditProfile from "../screens/EditProfile";
+import EditProfilePhoto from "../screens/EditProfilePhoto";
 
 const stackFactory = (initialRoute, customConfig) =>
   createStackNavigator(
@@ -39,6 +40,12 @@ const stackFactory = (initialRoute, customConfig) =>
         screen: EditProfile,
         navigationOptions: {
           title: "프로필 편집"
+        }
+      },
+      EditProfilePhoto: {
+        screen: EditProfilePhoto,
+        navigationOptions: {
+          title: "프로필 사진 편집"
         }
       }
     },
