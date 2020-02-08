@@ -81,12 +81,8 @@ const Post = ({
       console.log(e);
     }
   };
-  const commentView = length => {
-    if (length === 0) {
-      return;
-    } else {
-      navigation.navigate("Comment", { id });
-    }
+  const commentView = () => {
+    navigation.navigate("Comment", { id });
   };
   return (
     <Container>
@@ -159,7 +155,7 @@ const Post = ({
         <Caption>
           <Bold>{user.username}</Bold> {caption}
         </Caption>
-        <Touchable onPress={() => commentView(comments.length)}>
+        <Touchable onPress={commentView}>
           <CommentCount>댓글 {comments.length}개 모두 보기</CommentCount>
         </Touchable>
       </InfoContainer>
