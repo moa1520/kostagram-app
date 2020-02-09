@@ -58,9 +58,9 @@ const stackFactory = (initialRoute, customConfig) =>
       },
       Tabs: {
         screen: FollowNavigation,
-        navigationOptions: {
-          title: "팔로우"
-        }
+        navigationOptions: ({ navigation }) => ({
+          title: navigation.getParam("username")
+        })
       }
     },
     {
