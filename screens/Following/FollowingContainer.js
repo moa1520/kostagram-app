@@ -1,11 +1,16 @@
 import React from "react";
 import styled from "styled-components";
+import FollowingPresenter from "./FollowingPresenter";
+import Loader from "../../components/Loader";
+import { useQuery } from "react-apollo-hooks";
+import { GET_USER } from "../UserDetail";
 
-const View = styled.View``;
-const Text = styled.Text``;
+export default ({ navigation }) => {
+  const { loading, data } = useQuery(GET_USER, {
+    variables: {
+      username: navigation.getParam("username")
+    }
+  });
 
-export default () => (
-  <View>
-    <Text>Following Screen</Text>
-  </View>
-);
+  return loading ? <Loader /> : <FollowingPresenter {...data.seeUser} />;
+};
