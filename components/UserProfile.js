@@ -20,7 +20,7 @@ const ProfileStats = styled.View`
   flex-direction: row;
   margin-right: 60px;
 `;
-const Stat = styled.View`
+const Stat = styled.TouchableOpacity`
   align-items: center;
   margin-left: 30px;
 `;
@@ -69,6 +69,9 @@ const UserProfile = ({
   navigation
 }) => {
   const [isGrid, setIsGrid] = useState(true);
+  const handleFollow = () => {
+    navigation.navigate("Tabs", { username });
+  };
   return (
     <View>
       <ProfileHeader>
@@ -84,21 +87,25 @@ const UserProfile = ({
         </HeaderColumn>
         <HeaderColumn>
           <ProfileStats>
-            <Stat>
+            <Stat
+              onPress={() =>
+                Alert.alert("아직 개발중!", "아직 구현이 안됐습니다")
+              }
+            >
               <Bold>{postsCount}</Bold>
               <StatName>게시물</StatName>
             </Stat>
-            <Stat>
+            <Stat onPress={handleFollow}>
               <Bold>{followersCount}</Bold>
               <StatName>팔로워</StatName>
             </Stat>
-            <Stat>
+            <Stat onPress={handleFollow}>
               <Bold>{followingCount}</Bold>
               <StatName>팔로잉</StatName>
             </Stat>
             <Logout
               onPress={() => {
-                Alert.alert("아직 개발중!", "아직 구현이 안됬습니다");
+                Alert.alert("아직 개발중!", "아직 구현이 안됐습니다");
               }}
             >
               <Bold>로그아웃</Bold>

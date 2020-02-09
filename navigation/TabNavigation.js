@@ -15,6 +15,7 @@ import UserDetail from "../screens/UserDetail";
 import Comment from "../screens/Comment";
 import EditProfile from "../screens/EditProfile/EditProfile";
 import EditProfilePhoto from "../screens/EditProfile/EditProfilePhoto";
+import FollowNavigation from "./FollowNavigation";
 
 const stackFactory = (initialRoute, customConfig) =>
   createStackNavigator(
@@ -53,6 +54,12 @@ const stackFactory = (initialRoute, customConfig) =>
         screen: Comment,
         navigationOptions: {
           title: "댓글"
+        }
+      },
+      Tabs: {
+        screen: FollowNavigation,
+        navigationOptions: {
+          title: "팔로우"
         }
       }
     },
