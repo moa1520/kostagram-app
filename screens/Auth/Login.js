@@ -14,8 +14,6 @@ const View = styled.View`
   flex: 1;
 `;
 
-const Text = styled.Text``;
-
 export default ({ navigation }) => {
   const emailInput = useInput(navigation.getParam("email", ""));
   const [loading, setLoading] = useState(false);
