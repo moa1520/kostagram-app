@@ -51,11 +51,6 @@ const Posts = styled.View`
   flex-direction: ${props => (props.isGrid ? "row" : "column")};
   flex-wrap: wrap;
 `;
-const Logout = styled.TouchableOpacity`
-  margin-left: 20px;
-  align-items: center;
-  justify-content: center;
-`;
 
 const UserProfile = ({
   avatar,
@@ -66,19 +61,26 @@ const UserProfile = ({
   fullName,
   posts,
   username,
-  navigation
+  navigation,
+  notMe = false
 }) => {
+  const [notMeState, setNotMe] = useState(notMe);
   const [isGrid, setIsGrid] = useState(true);
   const handleFollow = () => {
     navigation.navigate("Tabs", { username });
+  };
+  const handleEditProfile = () => {
+    if (notMeState) {
+      return;
+    } else {
+      navigation.navigate("EditProfile", { username });
+    }
   };
   return (
     <View>
       <ProfileHeader>
         <HeaderColumn>
-          <TouchableOpacity
-            onPress={() => navigation.navigate("EditProfile", { username })}
-          >
+          <TouchableOpacity onPress={handleEditProfile}>
             <Image
               style={{ height: 80, width: 80, borderRadius: 40 }}
               source={{ uri: avatar }}
@@ -103,13 +105,6 @@ const UserProfile = ({
               <Bold>{followingCount}</Bold>
               <StatName>팔로잉</StatName>
             </Stat>
-            <Logout
-              onPress={() => {
-                Alert.alert("아직 개발중!", "아직 구현이 안됐습니다");
-              }}
-            >
-              <Bold>로그아웃</Bold>
-            </Logout>
           </ProfileStats>
         </HeaderColumn>
       </ProfileHeader>

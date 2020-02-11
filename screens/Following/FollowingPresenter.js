@@ -26,7 +26,7 @@ const FollowingPresenter = ({ following }) => {
       {following.map(p => (
         <Line key={p.id}>
           <Image
-            style={{ width: 50, height: 50, borderRadius: 5 }}
+            style={{ width: 50, height: 50, borderRadius: 50 }}
             source={{ uri: p.avatar }}
           />
           <Info>

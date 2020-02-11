@@ -2,7 +2,13 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { useQuery, useMutation } from "react-apollo-hooks";
 import { FULL_POST } from "./Detail";
-import { ScrollView, Image, Alert, ActivityIndicator } from "react-native";
+import {
+  ScrollView,
+  Image,
+  Alert,
+  ActivityIndicator,
+  TouchableOpacity
+} from "react-native";
 import Loader from "../components/Loader";
 import styles from "../styles";
 import constants from "../constants";
@@ -104,6 +110,9 @@ export default ({ navigation }) => {
       setCommentLoading(false);
     }
   };
+  const handleProfile = username => {
+    navigation.navigate("UserDetail", { username });
+  };
   return (
     <>
       {loading ? (
@@ -144,11 +153,19 @@ export default ({ navigation }) => {
               <Comments>
                 {data.seeFullPost.comments.map(comment => (
                   <Line key={comment.id}>
-                    <Image
-                      style={{ width: 40, height: 40, borderRadius: 50 }}
-                      source={{ uri: comment.user.avatar }}
-                    />
-                    <Bold>{comment.user.username}</Bold>
+                    <TouchableOpacity
+                      onPress={() => handleProfile(comment.user.username)}
+                    >
+                      <Image
+                        style={{ width: 40, height: 40, borderRadius: 50 }}
+                        source={{ uri: comment.user.avatar }}
+                      />
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      onPress={() => handleProfile(comment.user.username)}
+                    >
+                      <Bold>{comment.user.username}</Bold>
+                    </TouchableOpacity>
                     <Text>{comment.text}</Text>
                   </Line>
                 ))}

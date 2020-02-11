@@ -26,7 +26,7 @@ const FollowerPresenter = ({ followers }) => {
       {followers.map(follower => (
         <Line key={follower.id}>
           <Image
-            style={{ width: 50, height: 50, borderRadius: 5 }}
+            style={{ width: 50, height: 50, borderRadius: 50 }}
             source={{ uri: follower.avatar }}
           />
           <Info>

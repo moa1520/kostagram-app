@@ -5,6 +5,7 @@ import { USER_FRAGMENT } from "../fragments";
 import Loader from "../components/Loader";
 import UserProfile from "../components/UserProfile";
 import { ScrollView, RefreshControl } from "react-native";
+import { ME } from "./Tabs/Profile";
 
 export const GET_USER = gql`
   query seeUser($username: String!) {
@@ -22,6 +23,7 @@ export default ({ navigation }) => {
       username: navigation.getParam("username")
     }
   });
+  const { loading: meLoading, data: meData } = useQuery(ME);
   const refresh = async () => {
     try {
       setRefreshing(true);
@@ -32,17 +34,39 @@ export default ({ navigation }) => {
       setRefreshing(false);
     }
   };
-  return (
-    <ScrollView
-      refreshControl={
-        <RefreshControl refreshing={refreshing} onRefresh={refresh} />
-      }
-    >
-      {loading ? (
+  if (loading && meLoading) {
+    return (
+      <ScrollView
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={refresh} />
+        }
+      >
         <Loader />
-      ) : (
-        data && data.seeUser && <UserProfile {...data.seeUser} />
-      )}
-    </ScrollView>
-  );
+      </ScrollView>
+    );
+  } else {
+    if (data && data.seeUser) {
+      if (data.seeUser.username === meData.me.username) {
+        return (
+          <ScrollView
+            refreshControl={
+              <RefreshControl refreshing={refreshing} onRefresh={refresh} />
+            }
+          >
+            <UserProfile {...meData.me} notMe={false} />
+          </ScrollView>
+        );
+      } else {
+        return (
+          <ScrollView
+            refreshControl={
+              <RefreshControl refreshing={refreshing} onRefresh={refresh} />
+            }
+          >
+            <UserProfile {...data.seeUser} notMe={true} />
+          </ScrollView>
+        );
+      }
+    }
+  }
 };
