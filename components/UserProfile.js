@@ -8,6 +8,7 @@ import constants from "../constants";
 import SquarePhoto from "./SquarePhoto";
 import Post from "./Post";
 import { withNavigation } from "react-navigation";
+import FollowButton from "./FollowButton";
 
 const ProfileHeader = styled.View`
   padding: 20px;
@@ -18,7 +19,7 @@ const ProfileHeader = styled.View`
 const HeaderColumn = styled.View``;
 const ProfileStats = styled.View`
   flex-direction: row;
-  margin-right: 60px;
+  margin-right: 40px;
 `;
 const Stat = styled.TouchableOpacity`
   align-items: center;
@@ -53,10 +54,12 @@ const Posts = styled.View`
 `;
 
 const UserProfile = ({
+  id,
   avatar,
   postsCount,
   followersCount,
   followingCount,
+  isFollowing,
   bio,
   fullName,
   posts,
@@ -76,6 +79,7 @@ const UserProfile = ({
       navigation.navigate("EditProfile", { username });
     }
   };
+  const doFollow = () => {};
   return (
     <View>
       <ProfileHeader>
@@ -106,6 +110,7 @@ const UserProfile = ({
               <StatName>팔로잉</StatName>
             </Stat>
           </ProfileStats>
+          {notMe ? <FollowButton id={id} isFollowing={isFollowing} /> : null}
         </HeaderColumn>
       </ProfileHeader>
       <ProfileMeta>

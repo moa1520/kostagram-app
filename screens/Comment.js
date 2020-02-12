@@ -14,6 +14,7 @@ import styles from "../styles";
 import constants from "../constants";
 import { gql } from "apollo-boost";
 import useInput from "../hooks/useInput";
+import { ME } from "./Tabs/Profile";
 
 const ADD_COMMENT = gql`
   mutation addComment($postId: String!, $text: String!) {
@@ -56,6 +57,8 @@ const AddComment = styled.View`
   flex-direction: row;
   border-bottom-width: 1px;
   border-bottom-color: ${styles.lightGreyColor};
+  justify-content: center;
+  align-items: center;
 `;
 const TextInput = styled.TextInput`
   margin-left: 10px;
@@ -66,7 +69,8 @@ const TextInput = styled.TextInput`
 `;
 const Button = styled.TouchableOpacity`
   background-color: ${styles.blueColor};
-  width: 80px;
+  width: 60px;
+  height: 30px;
   border-radius: 30px;
   align-items: center;
   justify-content: center;
@@ -87,6 +91,7 @@ export default ({ navigation }) => {
       id: navigation.getParam("id")
     }
   });
+  const { loading: meLoading, data: meData } = useQuery(ME);
   const [addCommentMutation] = useMutation(ADD_COMMENT);
   const handleSubmit = async () => {
     try {
@@ -115,7 +120,7 @@ export default ({ navigation }) => {
   };
   return (
     <>
-      {loading ? (
+      {loading || meLoading ? (
         <Loader />
       ) : (
         <>
@@ -123,7 +128,7 @@ export default ({ navigation }) => {
             <AddComment>
               <Image
                 style={{ width: 50, height: 50, borderRadius: 50 }}
-                source={{ uri: data.seeFullPost.user.avatar }}
+                source={{ uri: meData.me.avatar }}
               />
               <TextInput
                 value={commentInput.value}
