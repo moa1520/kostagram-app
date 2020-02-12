@@ -34,7 +34,7 @@ export default ({ navigation }) => {
       setRefreshing(false);
     }
   };
-  if (loading && meLoading) {
+  if (loading || meLoading) {
     return (
       <ScrollView
         refreshControl={
@@ -45,28 +45,24 @@ export default ({ navigation }) => {
       </ScrollView>
     );
   } else {
-    if (data && data.seeUser) {
-      if (data.seeUser.username === meData.me.username) {
-        return (
-          <ScrollView
-            refreshControl={
-              <RefreshControl refreshing={refreshing} onRefresh={refresh} />
-            }
-          >
-            <UserProfile {...meData.me} notMe={false} />
-          </ScrollView>
-        );
-      } else {
-        return (
-          <ScrollView
-            refreshControl={
-              <RefreshControl refreshing={refreshing} onRefresh={refresh} />
-            }
-          >
-            <UserProfile {...data.seeUser} notMe={true} />
-          </ScrollView>
-        );
-      }
-    }
+    return data &&
+      data.seeUser &&
+      data.seeUser.username === meData.me.username ? (
+      <ScrollView
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={refresh} />
+        }
+      >
+        <UserProfile {...meData.me} notMe={false} />
+      </ScrollView>
+    ) : (
+      <ScrollView
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={refresh} />
+        }
+      >
+        <UserProfile {...data.seeUser} notMe={true} />
+      </ScrollView>
+    );
   }
 };
