@@ -1,5 +1,4 @@
 import React from "react";
-import styled from "styled-components";
 import FollowingPresenter from "./FollowingPresenter";
 import Loader from "../../components/Loader";
 import { useQuery } from "react-apollo-hooks";

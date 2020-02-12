@@ -1,5 +1,4 @@
 import React from "react";
-import { gql } from "apollo-boost";
 import { useQuery } from "react-apollo-hooks";
 import Loader from "../../components/Loader";
 import FollowerPresenter from "./FollowerPresenter";

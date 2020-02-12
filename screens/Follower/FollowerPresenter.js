@@ -1,7 +1,8 @@
 import React from "react";
 import styled from "styled-components";
-import { ScrollView, Image } from "react-native";
+import { ScrollView, Image, TouchableOpacity } from "react-native";
 import styles from "../../styles";
+import { withNavigation } from "react-navigation";
 
 const Line = styled.View`
   margin: 10px;
@@ -20,18 +21,32 @@ const FullName = styled.Text`
   color: ${styles.darkGreyColor};
 `;
 
-const FollowerPresenter = ({ followers }) => {
+const FollowerPresenter = ({ followers, navigation }) => {
   return (
     <ScrollView>
       {followers.map(follower => (
         <Line key={follower.id}>
-          <Image
-            style={{ width: 50, height: 50, borderRadius: 50 }}
-            source={{ uri: follower.avatar }}
-          />
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate("UserDetail", { username: follower.username })
+            }
+          >
+            <Image
+              style={{ width: 50, height: 50, borderRadius: 50 }}
+              source={{ uri: follower.avatar }}
+            />
+          </TouchableOpacity>
           <Info>
-            <Bold>{follower.username}</Bold>
-            <FullName>{follower.fullName}</FullName>
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate("UserDetail", {
+                  username: follower.username
+                })
+              }
+            >
+              <Bold>{follower.username}</Bold>
+              <FullName>{follower.fullName}</FullName>
+            </TouchableOpacity>
           </Info>
         </Line>
       ))}
@@ -39,4 +54,4 @@ const FollowerPresenter = ({ followers }) => {
   );
 };
 
-export default FollowerPresenter;
+export default withNavigation(FollowerPresenter);

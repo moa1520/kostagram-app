@@ -1,7 +1,8 @@
 import React from "react";
 import styled from "styled-components";
-import { ScrollView, Image } from "react-native";
+import { ScrollView, Image, TouchableOpacity } from "react-native";
 import styles from "../../styles";
+import { withNavigation } from "react-navigation";
 
 const Line = styled.View`
   margin: 10px;
@@ -20,18 +21,30 @@ const FullName = styled.Text`
   color: ${styles.darkGreyColor};
 `;
 
-const FollowingPresenter = ({ following }) => {
+const FollowingPresenter = ({ following, navigation }) => {
   return (
     <ScrollView>
       {following.map(p => (
         <Line key={p.id}>
-          <Image
-            style={{ width: 50, height: 50, borderRadius: 50 }}
-            source={{ uri: p.avatar }}
-          />
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate("UserDetail", { username: p.username })
+            }
+          >
+            <Image
+              style={{ width: 50, height: 50, borderRadius: 50 }}
+              source={{ uri: p.avatar }}
+            />
+          </TouchableOpacity>
           <Info>
-            <Bold>{p.username}</Bold>
-            <FullName>{p.fullName}</FullName>
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate("UserDetail", { username: p.username })
+              }
+            >
+              <Bold>{p.username}</Bold>
+              <FullName>{p.fullName}</FullName>
+            </TouchableOpacity>
           </Info>
         </Line>
       ))}
@@ -39,4 +52,4 @@ const FollowingPresenter = ({ following }) => {
   );
 };
 
-export default FollowingPresenter;
+export default withNavigation(FollowingPresenter);
