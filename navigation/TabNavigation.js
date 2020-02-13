@@ -16,6 +16,7 @@ import Comment from "../screens/Comment";
 import EditProfile from "../screens/EditProfile/EditProfile";
 import EditProfilePhoto from "../screens/EditProfile/EditProfilePhoto";
 import FollowNavigation from "./FollowNavigation";
+import WhoLike from "../screens/WhoLike";
 
 const stackFactory = (initialRoute, customConfig) =>
   createStackNavigator(
@@ -61,6 +62,12 @@ const stackFactory = (initialRoute, customConfig) =>
         navigationOptions: ({ navigation }) => ({
           title: navigation.getParam("username")
         })
+      },
+      WhoLike: {
+        screen: WhoLike,
+        navigationOptions: {
+          title: "좋아요"
+        }
       }
     },
     {

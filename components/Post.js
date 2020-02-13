@@ -9,6 +9,7 @@ import constants from "../constants";
 import styles from "../styles";
 import { useMutation } from "react-apollo-hooks";
 import { withNavigation } from "react-navigation";
+import Date from "./Date";
 
 const TOGGLE_LIKE = gql`
   mutation toggleLike($postId: String!) {
@@ -27,7 +28,7 @@ const HeaderUserContainer = styled.View`
   margin-left: 10px;
 `;
 const Bold = styled.Text`
-  font-weight: 500;
+  font-weight: 600;
 `;
 const Location = styled.Text`
   font-size: 12px;
@@ -45,9 +46,10 @@ const InfoContainer = styled.View`
 const Caption = styled.Text`
   margin: 3px 0px;
 `;
-const CommentCount = styled.Text`
+const GrayText = styled.Text`
   opacity: 0.5;
   font-size: 12px;
+  margin-top: 5px;
 `;
 
 const Post = ({
@@ -59,6 +61,7 @@ const Post = ({
   caption,
   comments = [],
   isLiked: isLikedProp,
+  createdAt,
   navigation
 }) => {
   const [isLiked, setIsLiked] = useState(isLikedProp);
@@ -83,6 +86,9 @@ const Post = ({
   };
   const commentView = () => {
     navigation.navigate("Comment", { id });
+  };
+  const handleWhoLike = () => {
+    navigation.navigate("WhoLike", { id });
   };
   return (
     <Container>
@@ -149,15 +155,16 @@ const Post = ({
             </IconContainer>
           </Touchable>
         </IconsContainer>
-        <Touchable>
+        <Touchable onPress={handleWhoLike}>
           <Bold>좋아요 {likeCount}개</Bold>
         </Touchable>
         <Caption>
           <Bold>{user.username}</Bold> {caption}
         </Caption>
         <Touchable onPress={commentView}>
-          <CommentCount>댓글 {comments.length}개 모두 보기</CommentCount>
+          <GrayText>댓글 {comments.length}개 모두 보기</GrayText>
         </Touchable>
+        <GrayText>{Date(createdAt)}</GrayText>
       </InfoContainer>
     </Container>
   );

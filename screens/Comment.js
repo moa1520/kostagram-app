@@ -15,6 +15,7 @@ import constants from "../constants";
 import { gql } from "apollo-boost";
 import useInput from "../hooks/useInput";
 import { ME } from "./Tabs/Profile";
+import Date from "../components/Date";
 
 const ADD_COMMENT = gql`
   mutation addComment($postId: String!, $text: String!) {
@@ -82,6 +83,20 @@ const ButtonText = styled.Text`
   font-size: 16px;
 `;
 const Top = styled.View``;
+const TextArea = styled.View`
+  width: ${constants.width / 1.5};
+`;
+const CommnetTextLine = styled.View``;
+const CommentFirstLine = styled.View`
+  flex-direction: row;
+`;
+const CommentSecondLine = styled.View`
+  margin-left: 5px;
+`;
+const GrayText = styled.Text`
+  color: ${styles.darkGreyColor};
+  font-size: 12px;
+`;
 
 export default ({ navigation }) => {
   const commentInput = useInput("");
@@ -153,7 +168,9 @@ export default ({ navigation }) => {
                   source={{ uri: data.seeFullPost.user.avatar }}
                 />
                 <Bold>{data.seeFullPost.user.username}</Bold>
-                <Text>{data.seeFullPost.caption}</Text>
+                <TextArea>
+                  <Text>{data.seeFullPost.caption}</Text>
+                </TextArea>
               </Header>
               <Comments>
                 {data.seeFullPost.comments.map(comment => (
@@ -166,12 +183,21 @@ export default ({ navigation }) => {
                         source={{ uri: comment.user.avatar }}
                       />
                     </TouchableOpacity>
-                    <TouchableOpacity
-                      onPress={() => handleProfile(comment.user.username)}
-                    >
-                      <Bold>{comment.user.username}</Bold>
-                    </TouchableOpacity>
-                    <Text>{comment.text}</Text>
+                    <CommnetTextLine>
+                      <CommentFirstLine>
+                        <TouchableOpacity
+                          onPress={() => handleProfile(comment.user.username)}
+                        >
+                          <Bold>{comment.user.username}</Bold>
+                        </TouchableOpacity>
+                        <TextArea>
+                          <Text>{comment.text}</Text>
+                        </TextArea>
+                      </CommentFirstLine>
+                      <CommentSecondLine>
+                        <GrayText>{Date(comment.createdAt)}</GrayText>
+                      </CommentSecondLine>
+                    </CommnetTextLine>
                   </Line>
                 ))}
               </Comments>

@@ -16,6 +16,14 @@ export const POST_FRAGMENT = gql`
     }
     caption
     likeCount
+    likes {
+      id
+      user {
+        id
+        avatar
+        username
+      }
+    }
     comments {
       id
       user {
