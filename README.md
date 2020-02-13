@@ -1,5 +1,7 @@
 # Kostagram iOS & Android App
 
+## Version 1.0.5 (2020. 2. 14)
+
 Screen:
 
 - [v] Home
