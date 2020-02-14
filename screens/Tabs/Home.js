@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ScrollView, RefreshControl, Text } from "react-native";
+import { ScrollView, RefreshControl, Text, FlatList } from "react-native";
 import styled from "styled-components";
 import { gql } from "apollo-boost";
 import { useQuery } from "react-apollo-hooks";
@@ -25,6 +25,7 @@ const View = styled.View`
 
 export default () => {
   const [refreshing, setRefreshing] = useState(false);
+  const [renderCount, setRenderCount] = useState(5);
   const { loading, data, refetch } = useQuery(FEED_QUERY);
   const refresh = async () => {
     try {
@@ -36,13 +37,36 @@ export default () => {
       setRefreshing(false);
     }
   };
-  return (
-    <ScrollView
-      refreshControl={
-        <RefreshControl refreshing={refreshing} onRefresh={refresh} />
-      }
-    >
-      {loading ? (
+  const onEndReached = () => {
+    setRenderCount(p => p + 5);
+  };
+  if (loading) {
+    return <Loader />;
+  } else {
+    if (data && data.seeFeed) {
+      return (
+        <FlatList
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={refresh} />
+          }
+          data={data.seeFeed}
+          renderItem={({ item, index }) => {
+            if (index < renderCount) {
+              return <Post key={item.id} {...item} />;
+            } else {
+              return;
+            }
+          }}
+          onEndReachedThreshold={1}
+          onEndReached={onEndReached}
+        />
+      );
+    }
+  }
+};
+
+{
+  /* {loading ? (
         <Loader />
       ) : (
         data &&
@@ -53,7 +77,5 @@ export default () => {
         <View>
           <Text>팔로우한 유저가 없습니다😂</Text>
         </View>
-      )}
-    </ScrollView>
-  );
-};
+      )} */
+}
