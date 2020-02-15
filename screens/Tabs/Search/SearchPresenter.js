@@ -6,6 +6,7 @@ import { gql } from "apollo-boost";
 import { useQuery } from "react-apollo-hooks";
 import Loader from "../../../components/Loader";
 import SquarePhoto from "../../../components/SquarePhoto";
+import SquareUser from "../../../components/SquareUser";
 
 export const SEARCH = gql`
   query search($term: String!) {
@@ -18,12 +19,23 @@ export const SEARCH = gql`
       likeCount
       commentCount
     }
+    searchUser(term: $term) {
+      id
+      avatar
+      username
+      fullName
+      isFollowing
+      isSelf
+    }
   }
 `;
 
 const Container = styled.View`
   flex-direction: row;
+  flex-wrap: wrap;
 `;
+const UserSection = styled.View``;
+const PostSection = styled.View``;
 
 const SearchPresenter = ({ term, shouldFetch }) => {
   const [refreshing, setRefreshing] = useState(false);
@@ -53,14 +65,24 @@ const SearchPresenter = ({ term, shouldFetch }) => {
       {loading ? (
         <Loader />
       ) : (
-        data &&
-        data.searchPost && (
-          <Container>
-            {data.searchPost.map(post => (
-              <SquarePhoto key={post.id} {...post} />
-            ))}
-          </Container>
-        )
+        <>
+          <UserSection>
+            {data &&
+              data.searchUser &&
+              data.searchUser.map(user => (
+                <SquareUser key={user.id} {...user} />
+              ))}
+          </UserSection>
+          <PostSection>
+            {data && data.searchPost && (
+              <Container>
+                {data.searchPost.map(post => (
+                  <SquarePhoto key={post.id} {...post} />
+                ))}
+              </Container>
+            )}
+          </PostSection>
+        </>
       )}
     </ScrollView>
   );

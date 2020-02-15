@@ -93,11 +93,7 @@ const UserProfile = ({
         </HeaderColumn>
         <HeaderColumn>
           <ProfileStats>
-            <Stat
-              onPress={() =>
-                Alert.alert("아직 개발중!", "아직 구현이 안됐습니다")
-              }
-            >
+            <Stat>
               <Bold>{postsCount}</Bold>
               <StatName>게시물</StatName>
             </Stat>
