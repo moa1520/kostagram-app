@@ -79,7 +79,7 @@ const UserProfile = ({
       navigation.navigate("EditProfile", { username });
     }
   };
-  const doFollow = () => {};
+
   return (
     <View>
       <ProfileHeader>

@@ -63,6 +63,7 @@ const Text = styled.Text`
 export default ({ navigation }) => {
   const [loading, setLoading] = useState(false);
   const photo = navigation.getParam("photo");
+  const isMulti = navigation.getParam("isMulti");
   const captionInput = useInput("");
   const locationInput = useInput("");
   const [uploadMutation] = useMutation(UPLOAD, {
@@ -73,19 +74,36 @@ export default ({ navigation }) => {
       Alert.alert("모두 입력을 해주세요.");
     }
     const formData = new FormData();
-    const name = photo.filename;
-    const [, type] = name.split(".");
-    formData.append("file", {
-      name,
-      type: type.toLowerCase(),
-      uri: photo.uri
-    });
+    if (isMulti) {
+      photo.map(p => {
+        const name = p.filename;
+        const [, type] = name.split(".");
+        formData.append("file", {
+          name,
+          type: type.toLowerCase(),
+          uri: p.uri
+        });
+      });
+    } else {
+      const name = photo.filename;
+      const [, type] = name.split(".");
+      formData.append("file", {
+        name,
+        type: type.toLowerCase(),
+        uri: photo.uri
+      });
+    }
+
     try {
       setLoading(true);
       const {
         data: { location }
       } = await axios.post(
-        "https://kostagram-backend.herokuapp.com/api/upload",
+        isMulti
+          ? // ? "http://localhost:4000/api/uploads"
+            // : "http://localhost:4000/api/upload",
+            "https://kostagram-backend.herokuapp.com/api/uploads"
+          : "https://kostagram-backend.herokuapp.com/api/upload",
         formData,
         {
           headers: {
@@ -97,7 +115,7 @@ export default ({ navigation }) => {
         data: { upload }
       } = await uploadMutation({
         variables: {
-          files: [location],
+          files: location,
           caption: captionInput.value,
           location: locationInput.value
         }
@@ -115,7 +133,11 @@ export default ({ navigation }) => {
   return (
     <View>
       <Container>
-        <Image source={{ uri: photo.uri }} />
+        <Image
+          source={{
+            uri: isMulti ? photo[0].uri : photo.uri
+          }}
+        />
       </Container>
       <Container>
         <Form>

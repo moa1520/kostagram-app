@@ -20,6 +20,9 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.kozza.kostagram"
+    },
+    "android": {
+      "package": "com.kozza.kostagram"
     }
   }
 }
