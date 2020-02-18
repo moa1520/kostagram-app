@@ -50,6 +50,7 @@ export default () => {
             <RefreshControl refreshing={refreshing} onRefresh={refresh} />
           }
           data={data.seeFeed}
+          initialNumToRender={5}
           renderItem={({ item, index }) => {
             if (index < renderCount) {
               return <Post key={item.id} {...item} />;
