@@ -14,8 +14,8 @@ import styles from "../styles";
 import constants from "../constants";
 import { gql } from "apollo-boost";
 import useInput from "../hooks/useInput";
-import { ME } from "./Tabs/Profile";
 import Date from "../components/Date";
+import { ME } from "../components/Queries";
 
 const ADD_COMMENT = gql`
   mutation addComment($postId: String!, $text: String!) {

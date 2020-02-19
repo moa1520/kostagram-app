@@ -5,7 +5,7 @@ import { USER_FRAGMENT } from "../fragments";
 import Loader from "../components/Loader";
 import UserProfile from "../components/UserProfile";
 import { ScrollView, RefreshControl } from "react-native";
-import { ME } from "./Tabs/Profile";
+import { ME } from "../components/Queries";
 
 export const GET_USER = gql`
   query seeUser($username: String!) {

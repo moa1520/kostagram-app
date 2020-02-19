@@ -1,19 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { gql } from "apollo-boost";
-import { USER_FRAGMENT } from "../../fragments";
+import React, { useState } from "react";
 import { ScrollView, RefreshControl } from "react-native";
 import Loader from "../../components/Loader";
 import { useQuery } from "react-apollo-hooks";
 import UserProfile from "../../components/UserProfile";
-
-export const ME = gql`
-  {
-    me {
-      ...UserParts
-    }
-  }
-  ${USER_FRAGMENT}
-`;
+import { ME } from "../../components/Queries";
 
 export default ({ navigation }) => {
   const [refreshing, setRefreshing] = useState(false);
