@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Image, View, TouchableOpacity, Platform } from "react-native";
+import { Image, View, TouchableOpacity, Platform, Modal } from "react-native";
 import PropTypes from "prop-types";
 import styled from "styled-components";
 import styles from "../styles";
@@ -69,12 +69,13 @@ const UserProfile = ({
 }) => {
   const [notMeState, setNotMe] = useState(notMe);
   const [isGrid, setIsGrid] = useState(true);
+  const [modalVisible, setModalVisible] = useState(false);
   const handleFollow = () => {
     navigation.navigate("Tabs", { username });
   };
   const handleEditProfile = () => {
     if (notMeState) {
-      return;
+      setModalVisible(p => !p);
     } else {
       navigation.navigate("EditProfile", { username });
     }
@@ -82,6 +83,29 @@ const UserProfile = ({
 
   return (
     <View>
+      <Modal animationType="fade" visible={modalVisible}>
+        <View
+          style={{
+            flex: 1,
+            alignItems: "center",
+            justifyContent: "center"
+          }}
+        >
+          <Image
+            style={{ width: constants.width, height: constants.height / 2 }}
+            source={{ uri: avatar }}
+          />
+          <TouchableOpacity
+            style={{ marginTop: 100 }}
+            onPress={() => setModalVisible(p => !p)}
+          >
+            <Ionicons
+              size={48}
+              name={Platform.OS === "ios" ? "ios-close" : "md-close"}
+            />
+          </TouchableOpacity>
+        </View>
+      </Modal>
       <ProfileHeader>
         <HeaderColumn>
           <TouchableOpacity onPress={handleEditProfile}>
