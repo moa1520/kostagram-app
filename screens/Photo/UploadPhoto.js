@@ -6,8 +6,8 @@ import { gql } from "apollo-boost";
 import styles from "../../styles";
 import constants from "../../constants";
 import useInput from "../../hooks/useInput";
-import { FEED_QUERY } from "../Tabs/Home";
 import { useMutation } from "react-apollo-hooks";
+import { FEED_QUERY } from "../../components/Queries";
 
 const UPLOAD = gql`
   mutation upload($caption: String!, $files: [String!]!, $location: String) {

@@ -1,20 +1,10 @@
 import React, { useState } from "react";
-import { ScrollView, RefreshControl, Text, FlatList } from "react-native";
+import { RefreshControl, FlatList } from "react-native";
 import styled from "styled-components";
-import { gql } from "apollo-boost";
 import { useQuery } from "react-apollo-hooks";
 import Loader from "../../components/Loader";
 import Post from "../../components/Post";
-import { POST_FRAGMENT } from "../../fragments";
-
-export const FEED_QUERY = gql`
-  {
-    seeFeed {
-      ...PostParts
-    }
-  }
-  ${POST_FRAGMENT}
-`;
+import { FEED_QUERY } from "../../components/Queries";
 
 const View = styled.View`
   justify-content: center;

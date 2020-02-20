@@ -1,17 +1,24 @@
 import React, { useState } from "react";
-import { Image, Platform, Alert } from "react-native";
+import {
+  Image,
+  Platform,
+  Alert,
+  TouchableOpacity,
+  ActivityIndicator
+} from "react-native";
 import styled from "styled-components";
 import { Ionicons } from "@expo/vector-icons";
 import PropTypes from "prop-types";
 import Swiper from "react-native-swiper";
 import { gql } from "apollo-boost";
+import Modal from "react-native-modal";
 import constants from "../constants";
 import styles from "../styles";
 import { useMutation, useQuery } from "react-apollo-hooks";
 import { withNavigation } from "react-navigation";
 import Date from "./Date";
 import Loader from "./Loader";
-import { ME } from "./Queries";
+import { ME, EDIT_POST, FEED_QUERY } from "./Queries";
 
 const TOGGLE_LIKE = gql`
   mutation toggleLike($postId: String!) {
@@ -67,6 +74,23 @@ const HeaderView = styled.View`
   align-items: center;
 `;
 
+const ModalView = styled.View`
+  background-color: white;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+`;
+const Text = styled.Text``;
+
+const ModalLine = styled.TouchableOpacity`
+  border-bottom-width: 1px;
+  border-bottom-color: ${styles.lightGreyColor};
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+`;
+
 const Post = ({
   id,
   user,
@@ -80,12 +104,17 @@ const Post = ({
   navigation
 }) => {
   const [isLiked, setIsLiked] = useState(isLikedProp);
+  const [mutationLoading, setMutationLoading] = useState(false);
   const [likeCount, setLikeCount] = useState(likeCountProp);
   const { loading, data } = useQuery(ME);
+  const [modalVisible, setModalVisible] = useState(false);
   const [toggleLikeMutation] = useMutation(TOGGLE_LIKE, {
     variables: {
       postId: id
     }
+  });
+  const [editPostMutation] = useMutation(EDIT_POST, {
+    refetchQueries: () => [{ query: FEED_QUERY }]
   });
   const handleLike = async () => {
     try {
@@ -106,11 +135,52 @@ const Post = ({
   const handleWhoLike = () => {
     navigation.navigate("WhoLike", { id });
   };
+  const handleDelete = async () => {
+    try {
+      setMutationLoading(true);
+      await editPostMutation({
+        variables: {
+          id,
+          action: "DELETE"
+        }
+      });
+      Alert.alert("삭제 완료");
+    } catch (e) {
+      console.log(e);
+      Alert.alert("삭제를 할 수 없습니다", "나중에 다시 시도해주세요");
+    } finally {
+      setMutationLoading(false);
+    }
+  };
   return loading ? (
     <Loader />
   ) : (
     data && data.me && (
       <Container>
+        <Modal
+          style={{ justifyContent: "flex-end", marginBottom: 30 }}
+          isVisible={modalVisible}
+          onBackdropPress={() => setModalVisible(p => !p)}
+        >
+          <ModalView>
+            <ModalLine>
+              <Bold style={{ fontSize: 16 }}>수정하기</Bold>
+            </ModalLine>
+            <ModalLine onPress={handleDelete}>
+              {mutationLoading ? (
+                <ActivityIndicator color="black" />
+              ) : (
+                <Bold style={{ fontSize: 16, color: "red" }}>삭제하기</Bold>
+              )}
+            </ModalLine>
+            <ModalLine
+              onPress={() => setModalVisible(p => !p)}
+              style={{ borderBottomWidth: 0 }}
+            >
+              <Bold>취소</Bold>
+            </ModalLine>
+          </ModalView>
+        </Modal>
         <Header>
           <HeaderView>
             <Touchable
@@ -135,11 +205,7 @@ const Post = ({
             </Touchable>
           </HeaderView>
           {user.id === data.me.id ? (
-            <Ionicon
-              onPress={() =>
-                Alert.alert("아직 개발 중", "수정, 삭제 넣을 예정")
-              }
-            >
+            <Ionicon onPress={() => setModalVisible(p => !p)}>
               <Ionicons
                 name={Platform.OS === "ios" ? "ios-more" : "md-more"}
                 size={25}
