@@ -7,7 +7,9 @@ import {
   Image,
   Alert,
   ActivityIndicator,
-  TouchableOpacity
+  TouchableOpacity,
+  Platform,
+  View
 } from "react-native";
 import Loader from "../components/Loader";
 import styles from "../styles";
@@ -15,7 +17,8 @@ import constants from "../constants";
 import { gql } from "apollo-boost";
 import useInput from "../hooks/useInput";
 import Date from "../components/Date";
-import { ME } from "../components/Queries";
+import { ME, DELETE_COMMENT } from "../components/Queries";
+import { Ionicons } from "@expo/vector-icons";
 
 const ADD_COMMENT = gql`
   mutation addComment($postId: String!, $text: String!) {
@@ -30,7 +33,7 @@ const ADD_COMMENT = gql`
   }
 `;
 
-const View = styled.View`
+const Container = styled.View`
   padding: 15px 10px;
 `;
 const Header = styled.View`
@@ -83,10 +86,10 @@ const ButtonText = styled.Text`
   font-size: 16px;
 `;
 const Top = styled.View``;
-const TextArea = styled.View`
-  width: ${constants.width / 1.5};
+const TextArea = styled.View``;
+const CommnetTextLine = styled.View`
+  width: ${constants.width / 1.4};
 `;
-const CommnetTextLine = styled.View``;
 const CommentFirstLine = styled.View`
   flex-direction: row;
 `;
@@ -108,6 +111,16 @@ export default ({ navigation }) => {
   });
   const { loading: meLoading, data: meData } = useQuery(ME);
   const [addCommentMutation] = useMutation(ADD_COMMENT);
+  const [deleteCommentMutation] = useMutation(DELETE_COMMENT, {
+    refetchQueries: () => [
+      {
+        query: FULL_POST,
+        variables: {
+          id: navigation.getParam("id")
+        }
+      }
+    ]
+  });
   const handleSubmit = async () => {
     try {
       setCommentLoading(true);
@@ -132,6 +145,18 @@ export default ({ navigation }) => {
   };
   const handleProfile = username => {
     navigation.navigate("UserDetail", { username });
+  };
+  const handleCommentDelete = async id => {
+    try {
+      await deleteCommentMutation({
+        variables: {
+          id
+        }
+      });
+    } catch (e) {
+      Alert.alert("요청을 수행할 수 없습니다", "다음에 다시 시도하세요");
+      console.log(e);
+    }
   };
   return (
     <>
@@ -161,7 +186,7 @@ export default ({ navigation }) => {
             </AddComment>
           </Top>
           <ScrollView>
-            <View>
+            <Container>
               <Header>
                 <Image
                   style={{ width: 40, height: 40, borderRadius: 50 }}
@@ -193,6 +218,19 @@ export default ({ navigation }) => {
                         <TextArea>
                           <Text>{comment.text}</Text>
                         </TextArea>
+                        {comment.user.id === meData.me.id ? (
+                          <TouchableOpacity
+                            style={{ position: "absolute", right: -50 }}
+                            onPress={() => handleCommentDelete(comment.id)}
+                          >
+                            <Ionicons
+                              size={16}
+                              name={
+                                Platform.OS === "ios" ? "ios-close" : "md-close"
+                              }
+                            />
+                          </TouchableOpacity>
+                        ) : null}
                       </CommentFirstLine>
                       <CommentSecondLine>
                         <GrayText>{Date(comment.createdAt)}</GrayText>
@@ -201,7 +239,7 @@ export default ({ navigation }) => {
                   </Line>
                 ))}
               </Comments>
-            </View>
+            </Container>
           </ScrollView>
         </>
       )}

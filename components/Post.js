@@ -1,11 +1,5 @@
 import React, { useState } from "react";
-import {
-  Image,
-  Platform,
-  Alert,
-  TouchableOpacity,
-  ActivityIndicator
-} from "react-native";
+import { Image, Platform, Alert, ActivityIndicator } from "react-native";
 import styled from "styled-components";
 import { Ionicons } from "@expo/vector-icons";
 import PropTypes from "prop-types";
