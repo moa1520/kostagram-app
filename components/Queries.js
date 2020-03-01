@@ -66,3 +66,20 @@ export const SEE_ROOM = gql`
     }
   }
 `;
+
+export const SEND_MESSAGE = gql`
+  mutation sendMessage($roomId: String, $message: String!, $toId: String) {
+    sendMessage(roomId: $roomId, message: $message, toId: $toId) {
+      id
+    }
+  }
+`;
+
+export const NEW_MESSAGE = gql`
+  subscription newMessage($roomId: String!) {
+    newMessage(roomId: $roomId) {
+      id
+      text
+    }
+  }
+`;
