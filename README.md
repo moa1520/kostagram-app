@@ -39,3 +39,9 @@ Screen:
 - [ ] 게시물 수정
 - [ ] 스토리
 - [ ] 비공개 포스트
+
+---
+
+## Subscription and Notification
+
+### Apollo Boost migration start (2020. 3. 1)
