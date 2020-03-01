@@ -188,14 +188,31 @@ export default ({ navigation }) => {
           <ScrollView>
             <Container>
               <Header>
-                <Image
-                  style={{ width: 40, height: 40, borderRadius: 50 }}
-                  source={{ uri: data.seeFullPost.user.avatar }}
-                />
-                <Bold>{data.seeFullPost.user.username}</Bold>
-                <TextArea>
-                  <Text>{data.seeFullPost.caption}</Text>
-                </TextArea>
+                <TouchableOpacity
+                  onPress={() => handleProfile(data.seeFullPost.user.username)}
+                >
+                  <Image
+                    style={{ width: 40, height: 40, borderRadius: 50 }}
+                    source={{ uri: data.seeFullPost.user.avatar }}
+                  />
+                </TouchableOpacity>
+                <View style={{ width: constants.width / 1.4 }}>
+                  <View style={{ flexDirection: "row" }}>
+                    <TouchableOpacity
+                      onPress={() =>
+                        handleProfile(data.seeFullPost.user.username)
+                      }
+                    >
+                      <Bold>{data.seeFullPost.user.username}</Bold>
+                    </TouchableOpacity>
+                    <TextArea>
+                      <Text>{data.seeFullPost.caption}</Text>
+                    </TextArea>
+                  </View>
+                  <View style={{ padding: 5 }}>
+                    <GrayText>{Date(data.seeFullPost.createdAt)}</GrayText>
+                  </View>
+                </View>
               </Header>
               <Comments>
                 {data.seeFullPost.comments.map(comment => (

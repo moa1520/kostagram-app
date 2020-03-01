@@ -1,4 +1,4 @@
-import React, { Profiler } from "react";
+import React from "react";
 import { View, Platform } from "react-native";
 import { createBottomTabNavigator } from "react-navigation-tabs";
 import { createStackNavigator } from "react-navigation-stack";
@@ -126,7 +126,7 @@ export default createBottomTabNavigator(
     },
     Notifications: {
       screen: stackFactory(Notifications, {
-        title: "Notifications"
+        title: "활동"
       }),
       navigationOptions: {
         tabBarIcon: ({ focused }) => (
@@ -148,7 +148,7 @@ export default createBottomTabNavigator(
     },
     Profile: {
       screen: stackFactory(Profile, {
-        title: "Profile"
+        title: "프로필"
       }),
       navigationOptions: {
         tabBarIcon: ({ focused }) => (

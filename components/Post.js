@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Image, Platform, Alert, ActivityIndicator } from "react-native";
+import { Image, Platform, Alert, ActivityIndicator, View } from "react-native";
 import styled from "styled-components";
 import { Ionicons } from "@expo/vector-icons";
 import PropTypes from "prop-types";
@@ -84,6 +84,32 @@ const ModalLine = styled.TouchableOpacity`
   align-items: center;
   padding: 20px;
 `;
+
+const FirstComment = styled.View`
+  flex-direction: row;
+  width: ${constants.width / 1.4};
+  align-items: center;
+`;
+
+const PaginationNumber = styled.View`
+  position: absolute;
+  top: 15;
+  right: 15;
+  background-color: ${styles.blackColor};
+  padding: 7px;
+  opacity: 0.7;
+  border-radius: 10px;
+`;
+
+const renderPagination = (index, total, context) => {
+  return total > 1 ? (
+    <PaginationNumber>
+      <Text style={{ color: "white" }}>
+        <Text>{index + 1}</Text>/{total}
+      </Text>
+    </PaginationNumber>
+  ) : null;
+};
 
 const Post = ({
   id,
@@ -209,8 +235,9 @@ const Post = ({
           ) : null}
         </Header>
         <Swiper
-          showsPagination={false}
+          showsPagination={true}
           style={{ height: constants.height / 2.2 }}
+          renderPagination={renderPagination}
         >
           {files.map(file => (
             <Image
@@ -263,10 +290,10 @@ const Post = ({
           </Touchable>
           <Comment>
             {comments.length > 0 ? (
-              <>
+              <FirstComment>
                 <Bold>{comments[comments.length - 1].user.username}</Bold>
                 <Caption> {comments[comments.length - 1].text}</Caption>
-              </>
+              </FirstComment>
             ) : null}
           </Comment>
           <GrayText>{Date(createdAt)}</GrayText>
