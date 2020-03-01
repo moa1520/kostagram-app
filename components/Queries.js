@@ -80,6 +80,33 @@ export const NEW_MESSAGE = gql`
     newMessage(roomId: $roomId) {
       id
       text
+      from {
+        id
+        username
+        avatar
+      }
+      to {
+        id
+        username
+        avatar
+      }
+    }
+  }
+`;
+
+export const SEE_ROOMS = gql`
+  query seeRooms {
+    seeRooms {
+      id
+      participants {
+        id
+        username
+        avatar
+      }
+      messages {
+        id
+        text
+      }
     }
   }
 `;

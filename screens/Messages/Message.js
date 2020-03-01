@@ -5,17 +5,44 @@ import {
   Text,
   ScrollView,
   TextInput,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
+  Image
 } from "react-native";
 import { useQuery, useMutation, useSubscription } from "react-apollo-hooks";
-import { SEE_ROOM, SEND_MESSAGE, NEW_MESSAGE } from "../../components/Queries";
+import {
+  SEE_ROOM,
+  SEND_MESSAGE,
+  NEW_MESSAGE,
+  ME
+} from "../../components/Queries";
 import withSuspense from "../../components/withSuspense";
 import styles from "../../styles";
+import { withNavigation } from "react-navigation";
 
-const ROOM_ID = "ck78l3xw700710780z61hl1vj";
+const Chat = styled.View`
+  margin-bottom: 10px;
+  background-color: ${props =>
+    props.isMe === props.me.id ? "#f9ca24" : styles.lightGreyColor};
+  border-radius: 10px;
+  padding: 10px;
+`;
 
-const Message = () => {
+const ChatText = styled.Text``;
+
+const ChatContainer = styled.View`
+  width: 100%;
+  justify-content: ${props =>
+    props.isMe === props.me.id ? "flex-end" : "flex-start"};
+  padding: 0px 15px;
+  flex-direction: row;
+`;
+
+const Message = ({ navigation }) => {
+  const ROOM_ID = navigation.getParam("roomId");
   const [message, setMessage] = useState("");
+  const {
+    data: { me }
+  } = useQuery(ME, { suspend: true });
   const { data: old, error } = useQuery(SEE_ROOM, {
     variables: { id: ROOM_ID },
     suspend: true
@@ -62,25 +89,45 @@ const Message = () => {
       style={{ flex: 1 }}
       enabled
       behavior="padding"
-      keyboardVerticalOffset={50}
+      keyboardVerticalOffset={70}
     >
       <ScrollView
         contentContainerStyle={{
           paddingVertical: 50,
-          flex: 1,
           justifyContent: "flex-end",
           alignItems: "center"
         }}
       >
         {messages.map(m => (
-          <View key={m.id} style={{ marginBottom: 10 }}>
-            <Text>{m.text}</Text>
-          </View>
+          <ChatContainer key={m.id} isMe={m.from.id} me={me}>
+            {m.to.id === me.id ? (
+              <Image
+                style={{
+                  width: 40,
+                  height: 40,
+                  borderRadius: 50,
+                  marginRight: 10
+                }}
+                source={{ uri: m.from.avatar }}
+              />
+            ) : null}
+            <Chat isMe={m.from.id} me={me}>
+              <ChatText>{m.text}</ChatText>
+            </Chat>
+          </ChatContainer>
         ))}
+      </ScrollView>
+      <View
+        style={{
+          alignItems: "center",
+          justifyContent: "center",
+          marginTop: 10,
+          marginBottom: 30
+        }}
+      >
         <TextInput
           placeholder="메시지 보내기..."
           style={{
-            marginTop: 50,
             width: "90%",
             borderRadius: 10,
             paddingVertical: 15,
@@ -92,9 +139,9 @@ const Message = () => {
           onChangeText={onChangeText}
           onSubmitEditing={onSubmit}
         />
-      </ScrollView>
+      </View>
     </KeyboardAvoidingView>
   );
 };
 
-export default withSuspense(Message);
+export default withSuspense(withNavigation(Message));
