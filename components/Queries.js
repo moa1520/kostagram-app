@@ -39,3 +39,30 @@ export const DELETE_COMMENT = gql`
     }
   }
 `;
+
+export const SEE_ROOM = gql`
+  query seeRoom($id: String!) {
+    seeRoom(id: $id) {
+      id
+      participants {
+        id
+        username
+        avatar
+      }
+      messages {
+        id
+        text
+        from {
+          id
+          username
+          avatar
+        }
+        to {
+          id
+          username
+          avatar
+        }
+      }
+    }
+  }
+`;

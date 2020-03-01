@@ -5,12 +5,13 @@ import { stackStyles } from "./config";
 
 export default createStackNavigator(
   {
-    Messages,
-    Message
+    Message,
+    Messages
   },
   {
     defaultNavigationOptions: {
-      headerStyle: { ...stackStyles }
+      headerStyle: { ...stackStyles },
+      headerTitle: "Direct"
     }
   }
 );
