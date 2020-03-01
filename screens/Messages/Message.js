@@ -38,7 +38,7 @@ const ChatContainer = styled.View`
 `;
 
 const Message = ({ navigation }) => {
-  const ROOM_ID = navigation.getParam("roomId");
+  const ROOM_ID = "ck78l3xw700710780z61hl1vj";
   const [message, setMessage] = useState("");
   const {
     data: { me }
@@ -58,7 +58,7 @@ const Message = ({ navigation }) => {
     variables: {
       roomId: ROOM_ID,
       message,
-      toId: "ck6dy7yiw000r0783ybee8ipm"
+      toId: "ck65de6mi000s0795v5vz5ibp"
     },
     refetchQueries: () => [{ query: SEE_ROOM, variables: { id: ROOM_ID } }]
   });
@@ -100,7 +100,7 @@ const Message = ({ navigation }) => {
       >
         {messages.map(m => (
           <ChatContainer key={m.id} isMe={m.from.id} me={me}>
-            {m.to.id === me.id ? (
+            {m.from.id !== me.id ? (
               <Image
                 style={{
                   width: 40,
