@@ -1,6 +1,6 @@
 # Kostagram iOS & Android App
 
-## Version 1.0.11 (2020. 3. 1)
+## Version 1.1.0 (2020. 3. 1)
 
 Screen:
 
@@ -45,3 +45,5 @@ Screen:
 ## Subscription and Notification
 
 ### Apollo Boost migration start (2020. 3. 1)
+
+- [x] Subscription 채팅
