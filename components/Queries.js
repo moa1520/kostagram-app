@@ -110,3 +110,12 @@ export const SEE_ROOMS = gql`
     }
   }
 `;
+
+export const EXPLORE_POST = gql`
+  query explorePost {
+    explorePost {
+      ...PostParts
+    }
+  }
+  ${POST_FRAGMENT}
+`;

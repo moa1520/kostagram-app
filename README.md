@@ -1,6 +1,6 @@
 # Kostagram iOS & Android App
 
-## Version 1.1.0 (2020. 3. 1)
+## Version 1.1.1 (2020. 3. 2)
 
 Screen:
 
@@ -36,6 +36,7 @@ Screen:
 - [x] 댓글 삭제
 - [x] 댓글창에서 게시물 업로드 시간 확인, 기타 넓이 수정
 - [x] 프로필에서 사진 여러개인 게시물 표시
+- [x] notification -> explore 탭 변경
 - [ ] 게시물 수정
 - [ ] 스토리
 - [ ] 비공개 포스트

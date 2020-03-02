@@ -126,7 +126,7 @@ export default createBottomTabNavigator(
     },
     Notifications: {
       screen: stackFactory(Notifications, {
-        title: "활동"
+        title: "탐색"
       }),
       navigationOptions: {
         tabBarIcon: ({ focused }) => (
